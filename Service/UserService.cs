@@ -69,7 +69,7 @@ namespace encuestas.Service
                         new Claim(ClaimTypes.Email, user.Email)
                     }
                 ),
-                Expires = DateTime.UtcNow.AddMinutes(10),
+                Expires = DateTime.UtcNow.AddMinutes(20),
                 SigningCredentials =
                 new SigningCredentials(new SymmetricSecurityKey(llave), SecurityAlgorithms.HmacSha256Signature)
             };

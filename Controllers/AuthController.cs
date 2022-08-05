@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace encuestas.Controllers
@@ -58,6 +59,30 @@ namespace encuestas.Controllers
                 return Ok(resp);
             }
             catch (Exception e) {
+                resp.message = e.Message;
+                return BadRequest(resp);
+            }
+        }
+        [HttpGet]
+        public IActionResult Validate()
+        {
+
+            Resp resp = new Resp();
+            try
+            {
+                var r = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier);
+                if (r == null)
+                {
+                    resp.message = "Usuario no autorizado!";
+                    resp.Status = 0;
+                    return Unauthorized(resp);
+                }
+                resp.data = _userService.ValidateToken(int.Parse(r.Value));
+                resp.Status = 1;
+                return Ok(resp);
+            }
+            catch (Exception e)
+            {
                 resp.message = e.Message;
                 return BadRequest(resp);
             }
