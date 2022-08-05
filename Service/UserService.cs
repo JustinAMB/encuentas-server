@@ -32,7 +32,17 @@ namespace encuestas.Service
             return user;
 
         }
-        
+        public UserResponse Create(AuthRequest model)
+        {
+
+            UserDal dal = new UserDal();
+            UserResponse user = dal.Insert(model);
+            
+            user.Password = "";
+            return user;
+
+        }
+
         public UserResponse ValidateToken(int id)
         {
             UserDal dal = new UserDal();

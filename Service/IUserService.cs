@@ -10,6 +10,7 @@ namespace encuestas.Service
     public interface IUserService
     {
         UserResponse Auth(AuthRequest model);
+        UserResponse Create(AuthRequest model);
         UserResponse ValidateToken(int id);
     }
 }
