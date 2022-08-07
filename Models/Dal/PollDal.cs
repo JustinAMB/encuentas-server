@@ -11,12 +11,13 @@ namespace encuestas.Models.Dal
 {
     public class PollDal
     {
-        public List<PollResponse> getPolls() { 
+        public List<PollResponse> getPollsByAuthor(int author) { 
             List<PollResponse> polls = new List<PollResponse>();
             Connection conn=new Connection();
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = conn.connect();
-            cmd.CommandText = "select POLL.id,options,POLL.token,finish,POLL.name,author,email,username from POLL inner join users on POLL.author = users.id";
+            cmd.CommandText = "select POLL.id,options,POLL.token,finish,POLL.name,author,email,username from POLL inner join users on POLL.author = users.id where POLL.author=@author";
+            cmd.Parameters.Add(new SqlParameter("@author", author));
             cmd.CommandType = System.Data.CommandType.Text;
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
